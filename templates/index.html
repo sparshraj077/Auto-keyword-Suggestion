@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autocorrect System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #a1e5a1;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        h1 {
+            font-weight: bold;
+        }
+        table th, table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">AutoSuggest & Autocorrect System</h1>
+        
+        <form method="POST" action="/suggest">
+            <div class="form-group">
+                <label for="keyword">Enter a word:</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" required>
+            </div>
+            <button type="submit" class="btn btn-success">Suggest</button>
+        </form>
+
+        <div id="suggestions" class="mt-4">
+            {% if suggestions %}
+                <h4 class="mb-3">Suggestions:</h4>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Suggested Word</th>
+                            <th>Similarity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for suggestion in suggestions %}
+                        <tr>
+                            <td>{{ suggestion['Word'] }}</td>
+                            <td>{{ suggestion['Similarity']|round(2) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% elif suggestions is not none %}
+                <p class="text-danger mt-3">No suggestions found for this word.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
